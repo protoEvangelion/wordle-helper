@@ -11,3 +11,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+label {
+  margin: 2rem;
+}
+
+input, textarea {
+  font-size: 22px;
+  padding: 16px;  
+}
+
+.not-in-position, .in-position {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.not-in-position {
+  width: 50px;
+}
+
+.word-list {
+  border: 3px solid limegreen;
+  padding: 2rem;
+  margin: 2rem;
+  max-width: 500px;
+}
