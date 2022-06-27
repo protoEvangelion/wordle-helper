@@ -35,6 +35,7 @@ function App() {
             <input
               key={i}
               id={i}
+              autocapitalize="none"
               onChange={() => {}}
               autoComplete="off"
               className="in-position"
@@ -63,6 +64,7 @@ function App() {
           name="included"
           id="included"
           rows="3"
+          autocapitalize="none"
           onChange={(e) => {
             setIncluded(e.target.value)
           }}
@@ -76,6 +78,7 @@ function App() {
           name="blacklist"
           id="blacklist"
           rows="3"
+          autocapitalize="none"
           onChange={(e) => {
             setBlacklist(e.target.value)
           }}
@@ -91,6 +94,7 @@ function App() {
             <textarea
               key={i}
               id={i}
+              autocapitalize="none"
               className="not-in-position"
               onChange={(e) => {
                 const newLettersNotInPosition = [...lettersNotInPosition]
