@@ -1,3 +1,9 @@
+# Wordle Solver
+
+Simple wordle solver that takes all ~12k 5 letter words, weights them by top 6 letter position frequency, and filters by the conditions you enter.
+
+![wordle-demo](./wordle.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
