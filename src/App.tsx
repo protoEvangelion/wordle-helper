@@ -23,6 +23,12 @@ function App() {
     [lettersInPosition, lettersNotInPosition, blacklist]
   )
 
+  React.useEffect(() => {
+    const nextInput = document.activeElement?.nextElementSibling as HTMLElement
+
+    nextInput?.focus?.()
+  }, [lettersInPosition])
+
   return (
     <div className="App">
       <header className="App-header">
