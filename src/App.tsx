@@ -13,14 +13,15 @@ function App() {
 
   const [blacklist, setBlacklist] = React.useState(defaultState.blacklist)
 
-  const words = React.useMemo(() => {
-    console.log(blacklist)
-    return filterWords({
-      lettersInPosition,
-      lettersNotInPosition,
-      blacklist,
-    })
-  }, [lettersInPosition, lettersNotInPosition, blacklist])
+  const words = React.useMemo(
+    () =>
+      filterWords({
+        lettersInPosition,
+        lettersNotInPosition,
+        blacklist,
+      }),
+    [lettersInPosition, lettersNotInPosition, blacklist]
+  )
 
   return (
     <div className="App">

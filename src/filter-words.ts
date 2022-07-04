@@ -1,5 +1,6 @@
 import { words } from './words'
 import { isEqual } from 'lodash'
+import { sortWordsByLetterFrequency } from './letter-frequency'
 
 /* Program */
 
@@ -9,12 +10,14 @@ export type Words = {
   blacklist: string
 }
 
+const sortedWords = sortWordsByLetterFrequency(words)
+
 export const filterWords = ({
   lettersInPosition,
   lettersNotInPosition,
   blacklist,
 }: Words) =>
-  words.filter((word) => {
+  sortedWords.filter((word) => {
     if (
       isEqual(
         {
@@ -44,7 +47,7 @@ const filterIncluded = (
     let newIncluded: string = included
 
     currentLetters.split(' ').forEach((letter) => {
-      if (!included.includes('letter')) {
+      if (!included.includes(letter)) {
         newIncluded = included.concat(` ${letter}`)
       }
     })
