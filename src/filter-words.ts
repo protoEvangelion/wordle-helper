@@ -3,12 +3,17 @@ import { isEqual } from 'lodash'
 
 /* Program */
 
+export type Words = {
+  lettersInPosition: [string, string, string, string, string]
+  lettersNotInPosition: [string, string, string, string, string]
+  blacklist: string
+}
+
 export const filterWords = ({
   lettersInPosition,
   lettersNotInPosition,
   blacklist,
-  included,
-}) =>
+}: Words) =>
   words.filter((word) => {
     if (
       isEqual(
@@ -16,7 +21,6 @@ export const filterWords = ({
           lettersInPosition,
           lettersNotInPosition,
           blacklist,
-          included,
         },
         defaultState
       )
@@ -25,34 +29,58 @@ export const filterWords = ({
     }
 
     return (
-      filterIncluded(included, word) &&
+      filterIncluded(lettersNotInPosition, word) &&
       filterBlacklist(blacklist, word) &&
       filterLettersInPosition(lettersInPosition, word) &&
       filterLettersNotInPosition(lettersNotInPosition, word)
     )
   })
 
-const filterIncluded = (included, word) =>
-  isEqual(included, defaultState.included) ||
-  included
-    .trim()
-    .split(' ')
-    .every((x) => x.length === 1 && word.includes(x))
+const filterIncluded = (
+  lettersNotInPosition: Words['lettersNotInPosition'],
+  word: string
+) => {
+  const included = lettersNotInPosition.reduce((included, currentLetters) => {
+    let newIncluded: string = included
 
-const filterBlacklist = (blacklist, word) =>
+    currentLetters.split(' ').forEach((letter) => {
+      if (!included.includes('letter')) {
+        newIncluded = included.concat(` ${letter}`)
+      }
+    })
+
+    return newIncluded
+  }, '')
+
+  return (
+    isEqual(lettersNotInPosition, defaultState.lettersNotInPosition) ||
+    included
+      .trim()
+      .split(' ')
+      .every((x) => x.length === 1 && word.includes(x))
+  )
+}
+
+const filterBlacklist = (blacklist: string, word: string) =>
   isEqual(blacklist, defaultState.blacklist) ||
   !blacklist
     .trim()
     .split(' ')
     .some((x) => x.length === 1 && word.includes(x))
 
-const filterLettersInPosition = (lettersInPosition, word) =>
+const filterLettersInPosition = (
+  lettersInPosition: Words['lettersInPosition'],
+  word: string
+) =>
   isEqual(lettersInPosition, defaultState.lettersInPosition) ||
   word
     .split('')
     .every((x, i) => (lettersInPosition[i] ? x === lettersInPosition[i] : true))
 
-const filterLettersNotInPosition = (lettersNotInPosition, word) =>
+const filterLettersNotInPosition = (
+  lettersNotInPosition: Words['lettersNotInPosition'],
+  word: string
+) =>
   isEqual(lettersNotInPosition, defaultState.lettersNotInPosition) ||
   !lettersNotInPosition.some((letters, i) =>
     letters.length
@@ -60,9 +88,8 @@ const filterLettersNotInPosition = (lettersNotInPosition, word) =>
       : false
   )
 
-export const defaultState = {
+export const defaultState: Words = {
   lettersInPosition: ['', '', '', '', ''],
   lettersNotInPosition: ['', '', '', '', ''],
   blacklist: '',
-  included: '',
 }

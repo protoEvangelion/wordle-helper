@@ -1,18 +1,17 @@
 import logo from './logo.svg'
 import './App.css'
-import { filterWords, defaultState } from './filter-words'
+import { filterWords, defaultState, Words } from './filter-words'
 import React from 'react'
 
 function App() {
-  const [lettersInPosition, setLettersInPosition] = React.useState(
-    defaultState.lettersInPosition
-  )
-  const [lettersNotInPosition, setLettersNotInPosition] = React.useState(
-    defaultState.lettersNotInPosition
-  )
+  const [lettersInPosition, setLettersInPosition] = React.useState<
+    Words['lettersInPosition']
+  >(defaultState.lettersInPosition)
+  const [lettersNotInPosition, setLettersNotInPosition] = React.useState<
+    Words['lettersNotInPosition']
+  >(defaultState.lettersNotInPosition)
 
   const [blacklist, setBlacklist] = React.useState(defaultState.blacklist)
-  const [included, setIncluded] = React.useState(defaultState.included)
 
   const words = React.useMemo(() => {
     console.log(blacklist)
@@ -20,9 +19,8 @@ function App() {
       lettersInPosition,
       lettersNotInPosition,
       blacklist,
-      included,
     })
-  }, [lettersInPosition, lettersNotInPosition, blacklist, included])
+  }, [lettersInPosition, lettersNotInPosition, blacklist])
 
   return (
     <div className="App">
@@ -34,15 +32,19 @@ function App() {
           {lettersInPosition.map((x, i) => (
             <input
               key={i}
-              id={i}
-              autocapitalize="none"
+              id={String(i)}
+              autoCapitalize="none"
               onChange={() => {}}
               autoComplete="off"
               className="in-position"
               name="letters"
               onKeyUp={(e) => {
-                const newLetters = [...lettersInPosition]
-                newLetters[e.target.id] = ''
+                const target = e.target as HTMLInputElement
+
+                const newLetters: Words['lettersInPosition'] = [
+                  ...lettersInPosition,
+                ]
+                newLetters[Number(target.id)] = ''
 
                 setLettersInPosition(newLetters)
 
@@ -50,7 +52,7 @@ function App() {
                   return
                 }
 
-                newLetters[e.target.id] = e.key
+                newLetters[Number(target.id)] = e.key
 
                 setLettersInPosition(newLetters)
               }}
@@ -59,26 +61,14 @@ function App() {
           ))}
         </div>
 
-        <label>Add included letters separated by space</label>
-        <textarea
-          name="included"
-          id="included"
-          rows="3"
-          autocapitalize="none"
-          onChange={(e) => {
-            setIncluded(e.target.value)
-          }}
-          value={included}
-        />
-
         <label>
           Add blacklist letters separated by space which should not be included
         </label>
         <textarea
           name="blacklist"
           id="blacklist"
-          rows="3"
-          autocapitalize="none"
+          rows={1}
+          autoCapitalize="none"
           onChange={(e) => {
             setBlacklist(e.target.value)
           }}
@@ -93,11 +83,13 @@ function App() {
           {lettersNotInPosition.map((x, i) => (
             <textarea
               key={i}
-              id={i}
-              autocapitalize="none"
+              id={String(i)}
+              autoCapitalize="none"
               className="not-in-position"
               onChange={(e) => {
-                const newLettersNotInPosition = [...lettersNotInPosition]
+                const newLettersNotInPosition: Words['lettersNotInPosition'] = [
+                  ...lettersNotInPosition,
+                ]
                 newLettersNotInPosition[i] = e.target.value
                 setLettersNotInPosition(newLettersNotInPosition)
               }}
