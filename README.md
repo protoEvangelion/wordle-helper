@@ -2,7 +2,7 @@
 
 Simple wordle solver that takes all ~12k 5 letter words, weights them by top 6 letter position frequency, and filters by the conditions you enter.
 
-![wordle-demo](./wordle.png)
+![image](https://user-images.githubusercontent.com/20076677/177067359-9a7c0936-ab1e-448b-9206-bdf5ed1413ca.png)
 
 # Getting Started with Create React App
 
